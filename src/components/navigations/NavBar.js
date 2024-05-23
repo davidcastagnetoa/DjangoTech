@@ -20,6 +20,7 @@ import {
   XIcon,
 } from "@heroicons/react/outline/index.js";
 import { ChevronDownIcon } from "@heroicons/react/solid/index.js";
+import { Button } from "../ui/button.jsx";
 
 const solutions = [
   {
@@ -299,12 +300,12 @@ export function NavBar() {
               <a href="#" className="text-base font-medium text-muted-foreground hover:text-foreground/80">
                 Sign in
               </a>
-              <a
+              <Button
                 href="#"
                 className="ml-8 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-primary-foreground bg-primary hover:bg-primary/90"
               >
                 Sign up
-              </a>
+              </Button>
             </div>
           </div>
         </div>
