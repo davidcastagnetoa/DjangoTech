@@ -11,6 +11,7 @@ ENVIRONMENT = env
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
+# SECRET_KEY = ')59vz(1ds#a#6!ur0s&l!^kui%)+*1oo7j)la@v5s-c*q9fp+j'
 
 DEBUG = True
 
@@ -25,7 +26,7 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
-PROJECT_APPS = []
+PROJECT_APPS = ['apps.user']
 ECOMMERCE_APPS = []
 THIRD_PARTY_APPS = [
     'corsheaders',
@@ -85,7 +86,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
 DATABASES = {
-    "default": env.db("DATABASE_URL", default="postgres:///ninerogues"),  # Cambiar por el nombre de tu DB. "username:///dbname"
+    "default": env.db("DATABASE_URL", default="postgres:///djangoStore"),  # Cambiar por el nombre de tu DB. "username:///dbname"
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
@@ -175,7 +176,7 @@ AUTHENTICATION_BACKENDS = (
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT', ),
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10080),
-    # 'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
     'ROTATE_REFRESFH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'AUTH_TOKEN_CLASSES': (
@@ -206,19 +207,19 @@ DJOSER = {
     },
 }
 
-BT_ENVIRONMENT = os.environ.get('BT_ENVIRONMENT')
-BT_MERCHANT_ID = os.environ.get('BT_MERCHANT_ID')
-BT_PUBLIC_KEY = os.environ.get('BT_PUBLIC_KEY')
-BT_PRIVATE_KEY = os.environ.get('BT_PRIVATE_KEY')
+# BT_ENVIRONMENT = os.environ.get('BT_ENVIRONMENT')
+# BT_MERCHANT_ID = os.environ.get('BT_MERCHANT_ID')
+# BT_PUBLIC_KEY = os.environ.get('BT_PUBLIC_KEY')
+# BT_PRIVATE_KEY = os.environ.get('BT_PRIVATE_KEY')
 
 
 AUTH_USER_MODEL = "user.UserAccount"
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # console instead smtp for development
 
 
 if not DEBUG:
-    DEFAULT_FROM_EMAIL = 'Vudera - Academia de Software <mail@vudera.com>'
+    DEFAULT_FROM_EMAIL = 'Kyomu - Tienda electronica Outlet <davidcastagnetoa@gmail.com>'
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = env('EMAIL_HOST')
     EMAIL_HOST_USER = env('EMAIL_HOST_USER')
@@ -226,29 +227,29 @@ if not DEBUG:
     EMAIL_PORT = env('EMAIL_PORT')
     EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 
-    # # django-ckeditor will not work with S3 through django-storages without this line in settings.py
-    # AWS_QUERYSTRING_AUTH = False
+#     # # django-ckeditor will not work with S3 through django-storages without this line in settings.py
+#     # AWS_QUERYSTRING_AUTH = False
 
-    # # aws settings
+#     # # aws settings
 
-    # AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
-    # AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
-    # AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+#     # AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+#     # AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+#     # AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
 
-    # AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-    # AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-    # AWS_DEFAULT_ACL = 'public-read'
+#     # AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+#     # AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+#     # AWS_DEFAULT_ACL = 'public-read'
 
-    # # s3 static settings
-    # STATIC_LOCATION = 'static'
-    # STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-    # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#     # # s3 static settings
+#     # STATIC_LOCATION = 'static'
+#     # STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+#     # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-    # # s3 public media settings
+#     # # s3 public media settings
 
-    # PUBLIC_MEDIA_LOCATION = 'media'
-    # MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
-    # DEFAULT_FILE_STORAGE = 'core.storage_backends.MediaStore'
+#     # PUBLIC_MEDIA_LOCATION = 'media'
+#     # MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
+#     # DEFAULT_FILE_STORAGE = 'core.storage_backends.MediaStore'
 
-    # STATICFILES_DIRS = (os.path.join(BASE_DIR, 'build/static'),)
-    # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#     # STATICFILES_DIRS = (os.path.join(BASE_DIR, 'build/static'),)
+#     # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
