@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
+import { Link } from "react-router-dom";
 import {
   BookmarkAltIcon,
   BriefcaseIcon,
@@ -21,6 +22,7 @@ import {
 } from "@heroicons/react/outline/index.js";
 import { ChevronDownIcon } from "@heroicons/react/solid/index.js";
 import { Button } from "../ui/button.jsx";
+import { ModeToggle } from "../mode-toggle.jsx";
 
 const solutions = [
   {
@@ -91,14 +93,14 @@ export function NavBar() {
       <div className="relative z-20">
         <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-5 sm:px-6 sm:py-4 lg:px-8 md:justify-start md:space-x-10">
           <div>
-            <a href="#" className="flex">
+            <Link to="/" className="flex">
               <span className="sr-only">Workflow</span>
               <img
                 className="h-8 w-auto sm:h-10"
                 src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                 alt=""
               />
-            </a>
+            </Link>
           </div>
           <div className="-mr-2 -my-2 md:hidden">
             <Popover.Button className="bg-background rounded-md p-2 inline-flex items-center justify-center text-foreground hover:bg-muted hover:text-accent-foreground">
@@ -297,14 +299,12 @@ export function NavBar() {
               </Popover>
             </Popover.Group>
             <div className="flex items-center md:ml-12">
-              <a href="#" className="text-base font-medium text-muted-foreground hover:text-foreground/80">
+              <ModeToggle className="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-s" />
+              <Link to="signin" className="ml-8 text-base font-medium text-muted-foreground hover:text-foreground/80">
                 Sign in
-              </a>
-              <Button
-                href="#"
-                className="ml-8 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-primary-foreground bg-primary hover:bg-primary/90"
-              >
-                Sign up
+              </Link>
+              <Button className="ml-8 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-primary-foreground bg-primary hover:bg-primary/90">
+                <Link to="/signup">Sign up</Link>
               </Button>
             </div>
           </div>
@@ -395,17 +395,17 @@ export function NavBar() {
                 </a>
               </div>
               <div className="mt-6">
-                <a
-                  href="#"
+                <Link
+                  to="/signup"
                   className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-primary-foreground bg-primary hover:bg-primary/90"
                 >
                   Sign up
-                </a>
+                </Link>
                 <p className="mt-6 text-center text-base font-medium text-muted-foreground/50">
                   Existing customer?{" "}
-                  <a href="#" className="transition-colors hover:text-foreground/80 text-primary">
+                  <Link to="/signin" className="transition-colors hover:text-foreground/80 text-primary">
                     Sign in
-                  </a>
+                  </Link>
                 </p>
               </div>
             </div>
