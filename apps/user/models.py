@@ -5,6 +5,8 @@ import os
 # * Modelos de la aplicacion, cada clase representa una tabla en la base de datos.
 
 # * Gestion de cuentas de usuario. Crea usuarios y administradores.
+
+
 class UserAccountManager(BaseUserManager):
     # - Metodo para crear usuario normal
     def create_user(self, email, password=None, **extra_fields):
@@ -28,6 +30,8 @@ class UserAccountManager(BaseUserManager):
         return user
 
 # * Cuenta de usuario, que se utiliza para el login.
+
+
 class userAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=255)

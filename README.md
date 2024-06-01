@@ -9,14 +9,20 @@ comandos:
 
 <!-- - FOR WINDOWS -->
 
-- pg_ctl -D "C:\Users\username\AppData\Local\Programs\PostgreSQL\data" start #Inicia el servidor
-- createuser -s postgres # Crear un superusuario
-- psql -U davidcastagnetoa -d postgres # Conectarse a la DB postgres con el usuario davidcastagnetoa
-- psql -U postgres # Acceder a PostgreSQL
+- `pg_ctl -D "C:\Users\username\AppData\Local\Programs\PostgreSQL\data" start` #Inicia el servidor
+- `createuser -s postgres` # Crear un superusuario
+- `psql -U davidcastagnetoa -d djangoStore` # Conectarse a la DB postgres con el usuario davidcastagnetoa
+- `psql -U postgres` # Acceder a PostgreSQL
+- http://localhost/pgadmin4/browser/
 
 <!-- - FOR BASH -->
 
-`cd /c/Users/username/AppData/Local/Programs/PostgreSQL/bin/ && pg_ctl -D ../data/ start`
+- `psql -U username -d djangoStore` # accede a la consola de postgres , a la base de datos 'djangoStore' como username
+- `\dt` # Para ver las tablas
+- `\l+ djangoStore` # verificar los permisos del usaurio en la DB 'djangoStore'
+- `\dp user_useraccount` # verificar los permisos sobre la tabla específica
+- `SELECT * FROM user_useraccount ORDER BY id ASC LIMIT 10`; # Para ver la tabla user_useraccount. maximos 10 filas
+  `cd /c/Users/username/AppData/Local/Programs/PostgreSQL/bin/ && pg_ctl -D ../data/ start`
 
 - pg_ctl register -N "PostgreSQL" -D "C:\Users\username\AppData\Local\Programs\PostgreSQL\data" # Configurar PostgreSQL para iniciar automáticamente
 
