@@ -16,7 +16,12 @@ export const SET_AUTH_LOADING = "SET_AUTH_LOADING";
 export const REMOVE_AUTH_LOADING = "REMOVE_AUTH_LOADING";
 
 // Login
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS  ";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAIL = "LOGIN_FAIL";
+
+// Get User Data
+export const USER_LOADED_SUCCESS = "USER_LOADED_SUCCESS";
+export const USER_LOADED_FAIL = "USER_LOADED_FAIL";
 
 // ! Alerts
 export const SET_ALERT = "SET_ALERT  ";

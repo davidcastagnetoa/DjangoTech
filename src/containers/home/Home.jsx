@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "../hocs/Layout";
+import Layout from "../../hocs/Layout";
 
 export const Home = () => {
   return (
