@@ -10,6 +10,10 @@ import Layout from "../../hocs/Layout.js";
 // REDUX
 import { connect } from "react-redux";
 import { signup } from "../../redux/actions/auth.js";
+import { Loader2 } from "lucide-react";
+
+//! Remove on production
+const debugMode = false;
 
 const navigation = {
   social: [
@@ -52,7 +56,7 @@ const navigation = {
   ],
 };
 
-const SignUp = ({ signup, isAuthenticated }) => {
+const SignUp = ({ signup, loading, isAuthenticated }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -93,8 +97,11 @@ const SignUp = ({ signup, isAuthenticated }) => {
     console.log("isAuthenticated", isAuthenticated);
   }, [isAuthenticated]);
 
+  // ! Remove on production
+  debugMode ? (loading = true) : (loading = false);
+
   // * Navega a la pagina de inicio
-  // if (accountCreated) return <Navigate to="/" />;
+  if (accountCreated && !loading) return <Navigate to="/" />;
 
   return (
     <Layout>
@@ -207,12 +214,22 @@ const SignUp = ({ signup, isAuthenticated }) => {
               </div>
 
               <div>
-                <Button
-                  type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90"
-                >
-                  Sign up
-                </Button>
+                {loading ? (
+                  <Button
+                    disabled
+                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90"
+                  >
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Please wait
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90"
+                  >
+                    Sign up
+                  </Button>
+                )}
               </div>
             </form>
           </CardContent>
@@ -249,6 +266,7 @@ const SignUp = ({ signup, isAuthenticated }) => {
   );
 };
 const mapStateToProps = (state) => ({
+  loading: state.Auth.loading,
   isAuthenticated: state.Auth.isAuthenticated,
 });
 

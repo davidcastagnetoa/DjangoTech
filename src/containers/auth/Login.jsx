@@ -7,9 +7,13 @@ import { Switch } from "../../components/ui/switch.jsx";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card.jsx";
 import { Label } from "../../components/ui/label.jsx";
 import Layout from "../../hocs/Layout.js";
+import { Loader2 } from "lucide-react";
 // REDUX
 import { connect } from "react-redux";
 import { signin } from "../../redux/actions/auth.js";
+
+//! Remove on production
+const debugMode = false;
 
 const navigation = {
   social: [
@@ -89,8 +93,11 @@ const Login = ({ signin, loading, isAuthenticated }) => {
     signin(formData);
   };
 
+  // ! Remove on production
+  debugMode ? (loading = true) : (loading = false);
+
   // * Navega a la página de inicio
-  if (activated) return <Navigate to="/" />;
+  if (activated && !loading) return <Navigate to="/" />;
 
   return (
     <Layout>
@@ -153,12 +160,22 @@ const Login = ({ signin, loading, isAuthenticated }) => {
               </div>
 
               <div>
-                <Button
-                  type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90"
-                >
-                  Sign in
-                </Button>
+                {loading ? (
+                  <Button
+                    disabled
+                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90"
+                  >
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Please wait
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90"
+                  >
+                    Sign in
+                  </Button>
+                )}
               </div>
             </form>
           </CardContent>
