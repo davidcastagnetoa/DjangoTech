@@ -11,7 +11,6 @@ ENVIRONMENT = env
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
-# SECRET_KEY = ')59vz(1ds#a#6!ur0s&l!^kui%)+*1oo7j)la@v5s-c*q9fp+j'
 
 DEBUG = True
 

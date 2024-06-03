@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
+// UI
+import { Navigate } from "react-router";
 import { Input } from "../../components/ui/input.jsx";
 import { Button } from "../../components/ui/button.jsx";
-import { Link } from "react-router-dom";
 import { Switch } from "../../components/ui/switch.jsx";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card.jsx";
 import { Label } from "../../components/ui/label.jsx";
 import Layout from "../../hocs/Layout.js";
+// REDUX
 import { connect } from "react-redux";
 import { signup } from "../../redux/actions/auth.js";
 
@@ -50,7 +52,7 @@ const navigation = {
   ],
 };
 
-const SignUp = ({ signup }) => {
+const SignUp = ({ signup, isAuthenticated }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -78,10 +80,21 @@ const SignUp = ({ signup }) => {
   // * Envia los datos
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("Datos a pasar", formData);
+    console.info("Datos a pasar Sign Up", formData);
     signup(formData);
-    setAccountCreated(true);
+    window.scrollTo(0, 0);
   };
+
+  // * Actualiza el estado de autentificacion
+  useEffect(() => {
+    if (isAuthenticated) {
+      setAccountCreated(true);
+    }
+    console.log("isAuthenticated", isAuthenticated);
+  }, [isAuthenticated]);
+
+  // * Navega a la pagina de inicio
+  // if (accountCreated) return <Navigate to="/" />;
 
   return (
     <Layout>
@@ -235,7 +248,9 @@ const SignUp = ({ signup }) => {
     </Layout>
   );
 };
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.Auth.isAuthenticated,
+});
 
 export default connect(mapStateToProps, {
   signup,

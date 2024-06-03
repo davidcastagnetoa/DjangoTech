@@ -1,4 +1,4 @@
-[link](https://youtu.be/zJA_tLTd3Vg?si=VbJuqhp6ve88sb1z&t=5653)
+[link](https://youtu.be/zJA_tLTd3Vg?si=rpeN6_rj0y1aE5BF&t=9167)
 
 comandos:
 
@@ -10,6 +10,7 @@ comandos:
 <!-- - FOR WINDOWS -->
 
 - `pg_ctl -D "C:\Users\username\AppData\Local\Programs\PostgreSQL\data" start` #Inicia el servidor
+- `cd /c/Users/username/AppData/Local/Programs/PostgreSQL/bin/ && pg_ctl -D ../data/ start`
 - `createuser -s postgres` # Crear un superusuario
 - `psql -U davidcastagnetoa -d djangoStore` # Conectarse a la DB postgres con el usuario davidcastagnetoa
 - `psql -U postgres` # Acceder a PostgreSQL
@@ -21,8 +22,8 @@ comandos:
 - `\dt` # Para ver las tablas
 - `\l+ djangoStore` # verificar los permisos del usaurio en la DB 'djangoStore'
 - `\dp user_useraccount` # verificar los permisos sobre la tabla específica
-- `SELECT * FROM user_useraccount ORDER BY id ASC LIMIT 10`; # Para ver la tabla user_useraccount. maximos 10 filas
-  `cd /c/Users/username/AppData/Local/Programs/PostgreSQL/bin/ && pg_ctl -D ../data/ start`
+- `SELECT * FROM public.user_useraccount ORDER BY id ASC;`; # Para ver la tabla user_useraccount.
+- `GRANT SELECT ON TABLE public.user_useraccount TO davidcastagnetoa;` # Otorgar permisos necesarios a usuario
 
 - pg_ctl register -N "PostgreSQL" -D "C:\Users\username\AppData\Local\Programs\PostgreSQL\data" # Configurar PostgreSQL para iniciar automáticamente
 
