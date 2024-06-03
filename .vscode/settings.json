@@ -1,3 +1,4 @@
 {
-    "editor.fontFamily": "Lekton Nerd Font Mono, Titillium Web Regular, Consolas"
+    "editor.fontFamily": "Lekton Nerd Font Mono, Titillium Web Regular, Consolas",
+    "prettier.printWidth": 140
 }

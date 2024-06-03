@@ -7,12 +7,68 @@ import {
   USER_LOADED_FAIL,
   AUTHENTICATED_SUCCESS,
   AUTHENTICATED_FAIL,
+  REFRESH_SUCCESS,
+  REFRESH_FAIL,
   SET_AUTH_LOADING,
   REMOVE_AUTH_LOADING,
 } from "./types.js";
 import { setAlert } from "./alert.js";
 import axios from "axios";
 import { extractErrorMessage } from "../../lib/utils.ts";
+
+/**
+ * Asynchronous function that get the user data from the server after login/sign up success
+ * sending a GET request with the JWT Token in header authorization
+ * It dispatches actions based on the response received
+ */
+export const load_user = () => async (dispatch) => {
+  if (localStorage.getItem("access")) {
+    dispatch({
+      type: SET_AUTH_LOADING,
+    });
+
+    const config = {
+      headers: {
+        Authorization: `JWT ${localStorage.getItem("access")}`,
+        Accept: "application/json",
+      },
+    };
+
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/users/me/`, config);
+      console.info("load_user function response: ", res.data);
+
+      if (res.status === 200) {
+        dispatch({
+          type: USER_LOADED_SUCCESS,
+          payload: res.data,
+        });
+      } else {
+        dispatch({
+          type: USER_LOADED_FAIL,
+        });
+      }
+      dispatch({
+        type: REMOVE_AUTH_LOADING,
+      });
+    } catch (err) {
+      dispatch({
+        type: USER_LOADED_FAIL,
+      });
+      dispatch({
+        type: REMOVE_AUTH_LOADING,
+      });
+    }
+  } else {
+    console.error("Token not found!");
+    dispatch({
+      type: USER_LOADED_FAIL,
+    });
+    dispatch({
+      type: REMOVE_AUTH_LOADING,
+    });
+  }
+};
 
 /** Function that checks if there is an access token stored in the local storage.
  * If the token exists, it sends a POST request to verify the token with the backend API.
@@ -34,6 +90,8 @@ export const check_authenticated = () => async (dispatch) => {
 
     try {
       const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/jwt/verify/`, body, config);
+      console.log("check_authenticated response:", res?.data);
+      console.log("check_authenticated status:", res.status);
 
       if (res.status === 200) {
         dispatch({
@@ -99,13 +157,7 @@ export const signup =
           type: SIGNUP_SUCCESS,
           payload: res.data,
         });
-        dispatch(
-          setAlert(
-            "Alta aceptada!",
-            "Correo de activacion enviado, revisa tu bandeja de entrada o spam",
-            "constructive"
-          )
-        );
+        dispatch(setAlert("Alta aceptada!", "Correo de activacion enviado, revisa tu bandeja de entrada o spam", "constructive"));
       } else {
         dispatch({
           type: SIGNUP_FAIL,
@@ -119,21 +171,15 @@ export const signup =
     } catch (error) {
       let errorRes = error.response;
 
-      console.error("Error status: ", JSON.stringify(errorRes.status));
-      console.error("Error response: ", JSON.stringify(errorRes.data));
+      console.error("Error status: ", JSON.stringify(errorRes?.status));
+      console.error("Error response: ", JSON.stringify(errorRes?.data));
 
       dispatch({
         type: SIGNUP_FAIL,
       });
       const errorMessage = extractErrorMessage(error);
       if (errorMessage === "user account with this email already exists.") {
-        dispatch(
-          setAlert(
-            "Error",
-            `${errorMessage}. Remember to activate your account, verify your inbox email`,
-            "destructive"
-          )
-        );
+        dispatch(setAlert("Error", `${errorMessage}. Remember to activate your account, verify your inbox email`, "destructive"));
       } else {
         dispatch(setAlert("Error", errorMessage, "destructive"));
       }
@@ -175,6 +221,7 @@ export const signin =
     try {
       const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/jwt/create/`, body, config);
       console.info("Singin function response: ", res.data);
+      console.info("Singin function status: ", res.status);
 
       if (res.status === 200) {
         dispatch({
@@ -182,21 +229,21 @@ export const signin =
           payload: res.data,
         });
         dispatch(setAlert("Bienvenido!", "Acceso concedido", "constructive"));
+        dispatch(load_user());
       } else {
         dispatch({
           type: LOGIN_FAIL,
         });
         dispatch(setAlert("Error de servidor", "Error conectando con el servidor, intenta mas tarde.", "destructive"));
       }
-
       dispatch({
         type: REMOVE_AUTH_LOADING,
       });
     } catch (error) {
       let errorRes = error.response;
 
-      console.error("Error status: ", JSON.stringify(errorRes.status));
-      console.error("Error response: ", JSON.stringify(errorRes.data));
+      console.error("Error status: ", JSON.stringify(errorRes?.status));
+      console.error("Error response: ", JSON.stringify(errorRes?.data));
 
       dispatch({
         type: LOGIN_FAIL,
@@ -238,12 +285,14 @@ export const activate =
     try {
       const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/users/activation/`, body, config);
       console.log("Activate function response: ", res.data);
+      console.log("Activate function status: ", res.status);
 
-      if (res.status === 200) {
+      if (res.status === 204) {
         dispatch({
           type: AUTHENTICATED_SUCCESS,
         });
-        dispatch(setAlert("Confirmado!", "Tu cuenta ha sido activada", "default"));
+        dispatch(setAlert("Confirmado!", "Tu cuenta ha sido activada", "constructive"));
+      } else {
         dispatch({
           type: AUTHENTICATED_FAIL,
         });
@@ -254,11 +303,18 @@ export const activate =
         type: REMOVE_AUTH_LOADING,
       });
     } catch (error) {
-      console.log("Error status: ", JSON.stringify(error.response.status));
-      console.log("Error response: ", JSON.stringify(error.response.data));
+      let errorRes = error.response;
+
+      console.error("Error status: ", JSON.stringify(errorRes?.status));
+      console.error("Error response: ", JSON.stringify(errorRes?.data));
+
       dispatch({
         type: SIGNUP_FAIL,
       });
+
+      const errorMessage = extractErrorMessage(error);
+      dispatch(setAlert("Error", errorMessage, "destructive"));
+
       dispatch({
         type: REMOVE_AUTH_LOADING,
       });
@@ -266,51 +322,47 @@ export const activate =
     }
   };
 
-export const load_user = () => async (dispatch) => {
-  if (localStorage.getItem("access")) {
-    dispatch({
-      type: SET_AUTH_LOADING,
-    });
-
+/**
+ *
+ * @returns
+ */
+export const refresh = () => async (dispatch) => {
+  if (localStorage.getItem("refresh")) {
     const config = {
       headers: {
-        Authorization: `JWT ${localStorage.getItem("access")}`,
         Accept: "application/json",
+        "Content-Type": "application/json",
       },
     };
 
-    try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/users/me/`, config);
-      console.info("load_user function response: ", res.data);
+    const body = JSON.stringify({
+      refresh: localStorage.getItem("refresh"),
+    });
 
-      if (res.status == 200) {
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/jwt/refresh/`, body, config);
+
+      console.log("refresh response:", res?.data);
+      console.log("refresh status:", res.status);
+
+      if (res.status === 200) {
         dispatch({
-          type: USER_LOADED_SUCCESS,
+          type: REFRESH_SUCCESS,
           payload: res.data,
         });
       } else {
         dispatch({
-          type: USER_LOADED_FAIL,
+          type: REFRESH_FAIL,
         });
       }
+    } catch (error) {
       dispatch({
-        type: REMOVE_AUTH_LOADING,
-      });
-    } catch (err) {
-      dispatch({
-        type: USER_LOADED_FAIL,
-      });
-      dispatch({
-        type: REMOVE_AUTH_LOADING,
+        type: REFRESH_FAIL,
       });
     }
   } else {
-    console.error("Token not found!");
     dispatch({
-      type: USER_LOADED_FAIL,
-    });
-    dispatch({
-      type: REMOVE_AUTH_LOADING,
+      type: REFRESH_FAIL,
     });
   }
 };

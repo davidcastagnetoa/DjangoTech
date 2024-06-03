@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+// UI
 import { Popover, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import {
@@ -24,6 +25,19 @@ import { ChevronDownIcon } from "@heroicons/react/solid/index.js";
 import { Button } from "../ui/button.jsx";
 import { ModeToggle } from "../mode-toggle.jsx";
 import AlertComponent from "../../components/AlertComponent.jsx";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuShortcut,
+} from "../ui/dropdown-menu.jsx";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar.jsx";
+
+// Redux
+import { connect } from "react-redux";
 
 const solutions = [
   {
@@ -87,7 +101,62 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function NavBar() {
+function NavBar({ isAuthenticated, user }) {
+  if (isAuthenticated) {
+    console.log("user data in navBar: ", user);
+  }
+  const initials = `${user?.first_name[0]}${user?.last_name[0]}`;
+
+  const authLinks = (
+    <div className="ml-2">
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Avatar>
+            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" /> {/* This is a edfault image */}
+            <AvatarFallback className="text-primary leading-1 flex h-full w-full items-center justify-center bg-muted/40 text-[15px] border border-input font-medium">
+              {initials}
+            </AvatarFallback>
+          </Avatar>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onSelect={() => console.info(`${user?.get_full_name} Profile. Function still not developed`)}>
+            Profile
+          </DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => console.info(`${user?.get_full_name} Billing. Function still not developed`)}>
+            Billing
+          </DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => console.info(`${user?.get_full_name} Orders. Function still not developed`)}>
+            Orders
+          </DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => console.info(`${user?.get_full_name} Subscriptions. Function still not developed`)}>
+            Subscriptions
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onSelect={() => console.warn(`User ${user?.get_full_name} logged out!!. Function still not developed`)}>
+            Log out
+            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+  const guessLinks = (
+    <>
+      <Button
+        variant="outline"
+        className="ml-2 inline-flex items-center justify-center px-4 py-2 rounded-md shadow-sm text-base font-medium text-primary-foreground"
+      >
+        <Link to="/signin">Sign in</Link>
+      </Button>
+
+      <Button className="ml-2 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-primary-foreground bg-primary hover:bg-primary/90">
+        <Link to="/signup">Sign up</Link>
+      </Button>
+    </>
+  );
+
   return (
     <>
       <Popover className="relative bg-background border-b border-border/40">
@@ -97,11 +166,7 @@ export function NavBar() {
             <div>
               <Link to="/" className="flex">
                 <span className="sr-only">Workflow</span>
-                <img
-                  className="h-8 w-auto sm:h-10"
-                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                  alt=""
-                />
+                <img className="h-8 w-auto sm:h-10" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="" />
               </Link>
             </div>
             <div className="-mr-2 -my-2 md:hidden">
@@ -229,9 +294,7 @@ export function NavBar() {
                           <div className="relative max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2">
                             <nav className="grid gap-y-10 px-4 py-8 bg-background sm:grid-cols-2 sm:gap-x-8 sm:py-12 sm:px-6 lg:px-8 xl:pr-12">
                               <div>
-                                <h3 className="text-sm font-medium tracking-wide text-muted-foreground uppercase">
-                                  Company
-                                </h3>
+                                <h3 className="text-sm font-medium tracking-wide text-muted-foreground uppercase">Company</h3>
                                 <ul role="list" className="mt-5 space-y-6">
                                   {company.map((item) => (
                                     <li key={item.name} className="flow-root">
@@ -239,10 +302,7 @@ export function NavBar() {
                                         href={item.href}
                                         className="-m-3 p-3 flex items-center rounded-md text-base font-medium text-muted-foreground hover:text-foreground/80 hover:bg-muted"
                                       >
-                                        <item.icon
-                                          className="flex-shrink-0 h-6 w-6 text-foreground"
-                                          aria-hidden="true"
-                                        />
+                                        <item.icon className="flex-shrink-0 h-6 w-6 text-foreground" aria-hidden="true" />
                                         <span className="ml-4">{item.name}</span>
                                       </a>
                                     </li>
@@ -250,9 +310,7 @@ export function NavBar() {
                                 </ul>
                               </div>
                               <div>
-                                <h3 className="text-sm font-medium tracking-wide text-muted-foreground uppercase">
-                                  Resources
-                                </h3>
+                                <h3 className="text-sm font-medium tracking-wide text-muted-foreground uppercase">Resources</h3>
                                 <ul role="list" className="mt-5 space-y-6">
                                   {resources.map((item) => (
                                     <li key={item.name} className="flow-root">
@@ -260,10 +318,7 @@ export function NavBar() {
                                         href={item.href}
                                         className="-m-3 p-3 flex items-center rounded-md text-base font-medium text-muted-foreground hover:text-foreground/80 hover:bg-muted"
                                       >
-                                        <item.icon
-                                          className="flex-shrink-0 h-6 w-6 text-foreground"
-                                          aria-hidden="true"
-                                        />
+                                        <item.icon className="flex-shrink-0 h-6 w-6 text-foreground" aria-hidden="true" />
                                         <span className="ml-4">{item.name}</span>
                                       </a>
                                     </li>
@@ -273,24 +328,16 @@ export function NavBar() {
                             </nav>
                             <div className="px-4 py-8 sm:py-12 sm:px-6 lg:px-8 xl:pl-12">
                               <div>
-                                <h3 className="text-sm font-medium tracking-wide text-muted-foreground uppercase">
-                                  From the blog
-                                </h3>
+                                <h3 className="text-sm font-medium tracking-wide text-muted-foreground uppercase">From the blog</h3>
                                 <ul role="list" className="mt-6 space-y-6">
                                   {blogPosts.map((post) => (
                                     <li key={post.id} className="flow-root">
                                       <a href={post.href} className="-m-3 p-3 flex rounded-lg hover:bg-foreground/10">
                                         <div className="hidden sm:block flex-shrink-0">
-                                          <img
-                                            className="w-32 h-20 object-cover rounded-md"
-                                            src={post.imageUrl}
-                                            alt=""
-                                          />
+                                          <img className="w-32 h-20 object-cover rounded-md" src={post.imageUrl} alt="" />
                                         </div>
                                         <div className="w-0 flex-1 sm:ml-8">
-                                          <h4 className="text-base font-medium text-foreground truncate">
-                                            {post.name}
-                                          </h4>
+                                          <h4 className="text-base font-medium text-foreground truncate">{post.name}</h4>
                                           <p className="mt-1 text-sm text-muted-foreground">{post.preview}</p>
                                         </div>
                                       </a>
@@ -314,15 +361,7 @@ export function NavBar() {
               </Popover.Group>
               <div className="flex items-center md:ml-12">
                 <ModeToggle className="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-s" />
-                <Link
-                  to="/signin"
-                  className="ml-8 text-base font-medium text-muted-foreground hover:text-foreground/80"
-                >
-                  Sign in
-                </Link>
-                <Button className="ml-8 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-primary-foreground bg-primary hover:bg-primary/90">
-                  <Link to="/signup">Sign up</Link>
-                </Button>
+                {isAuthenticated ? authLinks : guessLinks}
               </div>
             </div>
           </div>
@@ -337,19 +376,12 @@ export function NavBar() {
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          <Popover.Panel
-            focus
-            className="absolute z-30 top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
-          >
+          <Popover.Panel focus className="absolute z-30 top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden">
             <div className="rounded-lg shadow ring-1 ring-black ring-opacity-5 bg-background divide-y divide-border/40">
               <div className="pt-5 pb-6 px-5 sm:pb-8">
                 <div className="flex items-center justify-between">
                   <div>
-                    <img
-                      className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                      alt="Workflow"
-                    />
+                    <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow" />
                   </div>
                   <div className="-mr-2">
                     <Popover.Button className="bg-background rounded-md p-2 inline-flex items-center justify-center text-foreground hover:bg-muted hover:text-accent-foreground">
@@ -370,9 +402,7 @@ export function NavBar() {
                           <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-primary text-primary-foreground sm:h-12 sm:w-12">
                             <item.icon className="h-6 w-6" aria-hidden="true" />
                           </div>
-                          <div className="ml-4 text-base font-medium text-muted-foreground hover:text-primary">
-                            {item.name}
-                          </div>
+                          <div className="ml-4 text-base font-medium text-muted-foreground hover:text-primary">{item.name}</div>
                         </a>
                       ))}
                     </div>
@@ -434,3 +464,10 @@ export function NavBar() {
     </>
   );
 }
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.Auth.isAuthenticated,
+  user: state.Auth.user,
+});
+
+export default connect(mapStateToProps, {})(NavBar);
