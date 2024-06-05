@@ -11,6 +11,7 @@ import { Loader2 } from "lucide-react";
 // REDUX
 import { connect } from "react-redux";
 import { signin } from "../../redux/actions/auth.js";
+import { Link } from "react-router-dom";
 
 //! Remove on production
 const debugMode = false;
@@ -153,9 +154,9 @@ const Login = ({ signin, loading, isAuthenticated }) => {
                 </div>
 
                 <div className="text-sm">
-                  <a href="#" className="font-medium text-primary hover:text-primary/80">
+                  <Link to="/reset_password" className="font-medium text-primary hover:text-primary/80">
                     Forgot your password?
-                  </a>
+                  </Link>
                 </div>
               </div>
 
@@ -211,6 +212,7 @@ const Login = ({ signin, loading, isAuthenticated }) => {
     </Layout>
   );
 };
+
 const mapStateToProps = (state) => ({
   loading: state.Auth.loading,
   isAuthenticated: state.Auth.isAuthenticated,

@@ -1,7 +1,7 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 // UI
 import { Popover, Transition } from "@headlessui/react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import {
   BookmarkAltIcon,
   BriefcaseIcon,
@@ -38,6 +38,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar.jsx";
 
 // Redux
 import { connect } from "react-redux";
+import { logout } from "../../redux/actions/auth.js";
 
 const solutions = [
   {
@@ -101,11 +102,23 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-function NavBar({ isAuthenticated, user }) {
+function NavBar({ isAuthenticated, user, logout }) {
+  const [redirect, setRedirect] = useState(false);
+
   if (isAuthenticated) {
     console.log("user data in navBar: ", user);
   }
   const initials = `${user?.first_name[0]}${user?.last_name[0]}`;
+
+  const logoutHandler = () => {
+    logout();
+    console.log("Good bye!");
+    setRedirect(true);
+  };
+
+  if (redirect) {
+    return <Navigate to="/signin" replace />;
+  }
 
   const authLinks = (
     <div className="ml-2">
@@ -134,7 +147,7 @@ function NavBar({ isAuthenticated, user }) {
             Subscriptions
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onSelect={() => console.warn(`User ${user?.get_full_name} logged out!!. Function still not developed`)}>
+          <DropdownMenuItem onSelect={logoutHandler}>
             Log out
             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
           </DropdownMenuItem>
@@ -146,7 +159,7 @@ function NavBar({ isAuthenticated, user }) {
     <>
       <Button
         variant="outline"
-        className="ml-2 inline-flex items-center justify-center px-4 py-2 rounded-md shadow-sm text-base font-medium text-primary-foreground"
+        className="ml-2 inline-flex items-center justify-center px-4 py-2 rounded-md shadow-sm text-base font-medium text-foreground"
       >
         <Link to="/signin">Sign in</Link>
       </Button>
@@ -470,4 +483,6 @@ const mapStateToProps = (state) => ({
   user: state.Auth.user,
 });
 
-export default connect(mapStateToProps, {})(NavBar);
+export default connect(mapStateToProps, {
+  logout,
+})(NavBar);

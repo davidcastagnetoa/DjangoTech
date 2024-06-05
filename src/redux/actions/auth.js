@@ -11,6 +11,7 @@ import {
   REFRESH_FAIL,
   SET_AUTH_LOADING,
   REMOVE_AUTH_LOADING,
+  LOGOUT,
 } from "./types.js";
 import { setAlert } from "./alert.js";
 import axios from "axios";
@@ -323,8 +324,9 @@ export const activate =
   };
 
 /**
- *
- * @returns
+ * Asynchronous function that handles user refresh by
+ * sending a POST request to the server with user information
+ * It dispatches actions based on the response received.
  */
 export const refresh = () => async (dispatch) => {
   if (localStorage.getItem("refresh")) {
@@ -365,4 +367,14 @@ export const refresh = () => async (dispatch) => {
       type: REFRESH_FAIL,
     });
   }
+};
+
+/**
+ * Function that dispatches a LOGOUT action.
+ */
+export const logout = () => (dispatch) => {
+  dispatch({
+    type: LOGOUT,
+  });
+  dispatch(setAlert("Good bye!", "Succesfully logeed out!", "constructive"));
 };

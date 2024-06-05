@@ -1,4 +1,4 @@
-[link](https://youtu.be/zJA_tLTd3Vg?si=rpeN6_rj0y1aE5BF&t=9167)
+[link](https://youtu.be/zJA_tLTd3Vg?si=AY-Sfwp2vvTJaBCR&t=11388)
 
 comandos:
 

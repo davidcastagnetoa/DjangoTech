@@ -10,6 +10,7 @@ import { ThemeProvider } from "./components/theme-provider.jsx";
 import Login from "./containers/auth/Login.jsx";
 import SignUp from "./containers/auth/SignUp.jsx";
 import Activate from "./containers/auth/Activate.jsx";
+import ResetPassword from "./containers/auth/ResetPassword.jsx";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             {/* Authentication Pages */}
             <Route path="/signin" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/reset_password" element={<ResetPassword />} />
             <Route path="/activate/:uid/:token" element={<Activate />} />
           </Routes>
         </Router>

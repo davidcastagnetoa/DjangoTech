@@ -197,22 +197,6 @@ const SignUp = ({ signup, loading, isAuthenticated }) => {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Switch />
-
-                  <Label htmlFor="remember-me" className="ml-2 block text-sm text-foreground">
-                    Remember me
-                  </Label>
-                </div>
-
-                <div className="text-sm">
-                  <a href="#" className="font-medium text-primary hover:text-primary/80">
-                    Forgot your password?
-                  </a>
-                </div>
-              </div>
-
               <div>
                 {loading ? (
                   <Button
