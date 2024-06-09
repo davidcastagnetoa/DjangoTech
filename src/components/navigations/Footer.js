@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "../ui/button.jsx";
 import { Input } from "../ui/input.jsx";
+import { Separator } from "../ui/separator.jsx";
 
 const navigation = {
   solutions: [
@@ -10,7 +11,7 @@ const navigation = {
     { name: "Insights", href: "#" },
   ],
   support: [
-    { name: "Pricing", href: "#" },
+    { name: "Store", href: "#" },
     { name: "Documentation", href: "#" },
     { name: "Guides", href: "#" },
     { name: "API Status", href: "#" },
@@ -104,10 +105,10 @@ export const Footer = () => {
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
                 <h3 className="text-sm font-semibold text-foreground tracking-wider uppercase">Solutions</h3>
-                <ul role="list" className="mt-4 space-y-4">
+                <ul role="list" className="mt-2 space-y-2">
                   {navigation.solutions.map((item) => (
                     <li key={item.name}>
-                      <a href={item.href} className="text-base text-muted-foreground hover:text-accent-foreground">
+                      <a href={item.href} className="text-sm text-muted-foreground hover:text-accent-foreground">
                         {item.name}
                       </a>
                     </li>
@@ -116,10 +117,10 @@ export const Footer = () => {
               </div>
               <div className="mt-12 md:mt-0">
                 <h3 className="text-sm font-semibold text-foreground tracking-wider uppercase">Support</h3>
-                <ul role="list" className="mt-4 space-y-4">
+                <ul role="list" className="mt-2 space-y-2">
                   {navigation.support.map((item) => (
                     <li key={item.name}>
-                      <a href={item.href} className="text-base text-muted-foreground hover:text-accent-foreground">
+                      <a href={item.href} className="text-sm text-muted-foreground hover:text-accent-foreground">
                         {item.name}
                       </a>
                     </li>
@@ -130,10 +131,10 @@ export const Footer = () => {
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
                 <h3 className="text-sm font-semibold text-foreground tracking-wider uppercase">Company</h3>
-                <ul role="list" className="mt-4 space-y-4">
+                <ul role="list" className="mt-2 space-y-2">
                   {navigation.company.map((item) => (
                     <li key={item.name}>
-                      <a href={item.href} className="text-base text-muted-foreground hover:text-accent-foreground">
+                      <a href={item.href} className="text-sm text-muted-foreground hover:text-accent-foreground">
                         {item.name}
                       </a>
                     </li>
@@ -142,10 +143,10 @@ export const Footer = () => {
               </div>
               <div className="mt-12 md:mt-0">
                 <h3 className="text-sm font-semibold text-foreground tracking-wider uppercase">Legal</h3>
-                <ul role="list" className="mt-4 space-y-4">
+                <ul role="list" className="mt-2 space-y-2">
                   {navigation.legal.map((item) => (
                     <li key={item.name}>
-                      <a href={item.href} className="text-base text-muted-foreground hover:text-accent-foreground">
+                      <a href={item.href} className="text-sm text-muted-foreground hover:text-accent-foreground">
                         {item.name}
                       </a>
                     </li>
@@ -155,24 +156,13 @@ export const Footer = () => {
             </div>
           </div>
           <div className="mt-8 xl:mt-0">
-            <h3 className="text-sm font-semibold text-foreground tracking-wider uppercase">
-              Subscribe to our newsletter
-            </h3>
-            <p className="mt-4 text-base text-muted-foreground">
-              The latest news, articles, and resources, sent to your inbox weekly.
-            </p>
+            <h3 className="text-sm font-semibold text-foreground tracking-wider uppercase">Subscribe to our newsletter</h3>
+            <p className="mt-4 text-base text-muted-foreground">The latest news, articles, and resources, sent to your inbox weekly.</p>
             <form className="mt-4 sm:flex sm:max-w-md">
               <label htmlFor="email-address" className="sr-only">
                 Email address
               </label>
-              <Input
-                type="email"
-                name="email-address"
-                id="email-address"
-                autoComplete="email"
-                required
-                placeholder="Enter your email"
-              />
+              <Input type="email" name="email-address" id="email-address" autoComplete="email" required placeholder="Enter your email" />
               <div className="mt-3 rounded-md sm:mt-0 sm:ml-3 sm:flex-shrink-0">
                 <Button
                   type="submit"
@@ -184,7 +174,8 @@ export const Footer = () => {
             </form>
           </div>
         </div>
-        <div className="mt-8 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between">
+        <Separator className="mt-4" />
+        <div className="mt-4 pt-4 md:flex md:items-center md:justify-between">
           <div className="flex space-x-6 md:order-2">
             {navigation.social.map((item) => (
               <a
@@ -197,9 +188,7 @@ export const Footer = () => {
               </a>
             ))}
           </div>
-          <p className="mt-8 text-base text-foreground md:mt-0 md:order-1">
-            &copy; 2020 Workflow, Inc. All rights reserved.
-          </p>
+          <p className="mt-8 text-base text-foreground md:mt-0 md:order-1">&copy; 2020 Workflow, Inc. All rights reserved.</p>
         </div>
       </div>
     </footer>

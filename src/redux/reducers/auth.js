@@ -15,6 +15,10 @@ import {
   LOGOUT,
   SET_AUTH_LOADING,
   REMOVE_AUTH_LOADING,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAIL,
+  RESET_PASSWORD_CONFIRM_SUCCESS,
+  RESET_PASSWORD_CONFIRM_FAIL,
 } from "../actions/types.js";
 
 const initialState = {
@@ -89,6 +93,10 @@ export default function Auth(state = initialState, action) {
     case SIGNUP_SUCCESS:
     case ACTIVATION_SUCCESS:
     case ACTIVATION_FAIL:
+    case RESET_PASSWORD_SUCCESS:
+    case RESET_PASSWORD_FAIL:
+    case RESET_PASSWORD_CONFIRM_SUCCESS:
+    case RESET_PASSWORD_CONFIRM_FAIL:
       return {
         ...state,
       };

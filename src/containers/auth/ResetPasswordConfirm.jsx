@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 // UI
 import { Input } from "../../components/ui/input.jsx";
 import { Button } from "../../components/ui/button.jsx";
@@ -9,22 +9,26 @@ import Layout from "../../hocs/Layout.js";
 import { Loader2 } from "lucide-react";
 // REDUX
 import { connect } from "react-redux";
-import { reset_password } from "../../redux/actions/auth.js";
-import { Link } from "react-router-dom";
+import { reset_password_confirm } from "../../redux/actions/auth.js";
 
 const debugMode = false;
 
-const ResetPassword = ({ reset_password, loading }) => {
+const ResetPasswordConfirm = ({ reset_password_confirm, loading, isAuthenticated }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  const params = useParams();
+
   const [requestSent, setRequestSent] = useState(false);
+
+  // * Estado para los datos
   const [formData, setFormData] = useState({
-    email: "",
+    new_password: "",
+    re_new_password: "",
   });
 
-  const { email } = formData;
+  const { new_password, re_new_password } = formData;
 
   // * Actualiza los datos
   const onChange = (e) => {
@@ -37,9 +41,10 @@ const ResetPassword = ({ reset_password, loading }) => {
   // * Envia los datos
   const onSubmit = (e) => {
     e.preventDefault();
-    console.info("Datos a pasar Reset Password", formData);
-    reset_password(formData);
-    setRequestSent(true);
+    const uid = params.uid;
+    const token = params.token;
+    reset_password_confirm({ uid, token, new_password, re_new_password });
+    if (new_password === re_new_password) setRequestSent(true);
   };
 
   // * Redirecciona al hom
@@ -56,29 +61,48 @@ const ResetPassword = ({ reset_password, loading }) => {
         <Card>
           {/* Header */}
           <CardHeader className="mt-5 space-y-1.5 items-center">
-            <CardTitle className="text-2xl">Reset your Password</CardTitle>
-            <CardDescription>Enter your email and we'll help you reset it a snap.</CardDescription>
+            <CardTitle className="text-2xl">Set new Password</CardTitle>
+            <CardDescription>
+              <div className="flex justify-center">Your password is reset!</div>
+              <div className="flex justify-center">Choose a new one below to complete the process</div>
+            </CardDescription>
           </CardHeader>
           {/* Form */}
           <CardContent>
             <form onSubmit={(e) => onSubmit(e)} className="space-y-4" method="POST">
-              {/* Email */}
+              {/* Password */}
               <div>
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="password">Password</Label>
                 <div className="mt-1">
                   <Input
-                    type="email"
-                    name="email"
-                    id="email"
-                    value={email}
+                    type="password"
+                    name="new_password"
+                    id="new_password"
+                    value={new_password}
                     onChange={(e) => onChange(e)}
-                    autoComplete="email"
+                    autoComplete="Password"
                     required
-                    placeholder="Enter your email"
+                    placeholder="Password"
                   />
                 </div>
               </div>
 
+              {/*Repeat Password */}
+              <div>
+                <Label htmlFor="password">Confirm Password</Label>
+                <div className="mt-1">
+                  <Input
+                    type="password"
+                    name="re_new_password"
+                    id="re_new_password"
+                    value={re_new_password}
+                    onChange={(e) => onChange(e)}
+                    autoComplete="current-password"
+                    required
+                    placeholder="Confirm password"
+                  />
+                </div>
+              </div>
               <div className="pt-4">
                 {loading ? (
                   <Button
@@ -97,15 +121,6 @@ const ResetPassword = ({ reset_password, loading }) => {
                   </Button>
                 )}
               </div>
-              <div>
-                <Button
-                  variant="outline"
-                  type="submit"
-                  className="w-full flex justify-center py-2 px-4 rounded-md shadow-sm text-sm font-medium"
-                >
-                  <Link to="/signin">Back to Login</Link>
-                </Button>
-              </div>
             </form>
           </CardContent>
 
@@ -123,5 +138,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  reset_password,
-})(ResetPassword);
+  reset_password_confirm,
+})(ResetPasswordConfirm);

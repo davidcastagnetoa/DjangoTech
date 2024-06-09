@@ -12,6 +12,10 @@ import {
   SET_AUTH_LOADING,
   REMOVE_AUTH_LOADING,
   LOGOUT,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAIL,
+  RESET_PASSWORD_CONFIRM_SUCCESS,
+  RESET_PASSWORD_CONFIRM_FAIL,
 } from "./types.js";
 import { setAlert } from "./alert.js";
 import axios from "axios";
@@ -370,7 +374,146 @@ export const refresh = () => async (dispatch) => {
 };
 
 /**
+ * Asynchronous function that handles user reset password by
+ * sending a POST request to the server with user information
+ * @component : 'ResetPassword.jsx'
+ * @param email : email to send reset password
+ * @returns dispatches actions based on the response received.
+ */
+export const reset_password =
+  ({ email }) =>
+  async (dispatch) => {
+    dispatch({
+      type: SET_AUTH_LOADING,
+    });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const body = JSON.stringify({
+      email,
+    });
+
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/users/reset_password/`, body, config);
+
+      console.log("reset_password response:", res?.data);
+      console.log("reset_password status:", res.status);
+
+      if (res.status === 204) {
+        dispatch({
+          type: RESET_PASSWORD_SUCCESS,
+        });
+        dispatch(setAlert("Correo enviado!", "Revise su bandeja de entrada o spam", "constructive"));
+      } else {
+        dispatch({
+          type: RESET_PASSWORD_FAIL,
+        });
+        dispatch(setAlert("Error!", "Error al enviar correo", "destructive"));
+      }
+      dispatch({
+        type: REMOVE_AUTH_LOADING,
+      });
+    } catch (error) {
+      let errorRes = error.response;
+      console.error("Error status reset_password: ", JSON.stringify(errorRes?.status));
+      console.error("Error response reset_password: ", JSON.stringify(errorRes?.data));
+
+      dispatch({
+        type: RESET_PASSWORD_FAIL,
+      });
+      const errorMessage = extractErrorMessage(error);
+      dispatch(setAlert("Error", errorMessage, "destructive"));
+      dispatch({
+        type: REMOVE_AUTH_LOADING,
+      });
+    }
+  };
+
+/**
+ * Asynchronous function that handles user reset password by
+ * sending a POST request to the server with the new password choosen by the user
+ * @component : 'ResetPasswordConfirmation.jsx'
+ * @param {*} uid uid to send reset password
+ * @param {*} token token to send reset password
+ * @param {*} new_password new password to send reset password
+ * @param {*} re_new_password confirm new password to send reset password
+ * @returns
+ */
+export const reset_password_confirm =
+  ({ uid, token, new_password, re_new_password }) =>
+  async (dispatch) => {
+    dispatch({
+      type: SET_AUTH_LOADING,
+    });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const body = JSON.stringify({
+      uid,
+      token,
+      new_password,
+      re_new_password,
+    });
+
+    if (new_password !== re_new_password) {
+      dispatch(setAlert("Error!", "Las contraseñas no coinciden", "destructive"));
+      dispatch({
+        type: RESET_PASSWORD_CONFIRM_FAIL,
+      });
+      dispatch({
+        type: REMOVE_AUTH_LOADING,
+      });
+      return;
+    }
+
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/users/reset_password_confirm/`, body, config);
+      console.log("reset_password_confirm response:", res?.data);
+      console.log("reset_password_confirm status:", res.status);
+      if (res.status === 204) {
+        dispatch({
+          type: RESET_PASSWORD_CONFIRM_SUCCESS,
+        });
+        dispatch(setAlert("Contraseña cambiada!", "Inicie sesión nuevamente", "constructive"));
+      } else {
+        dispatch({
+          type: RESET_PASSWORD_CONFIRM_FAIL,
+        });
+        dispatch(setAlert("Error!", "Error al cambiar contraseña", "destructive"));
+      }
+      dispatch({
+        type: REMOVE_AUTH_LOADING,
+      });
+      // dispatch(logout());
+      // dispatch(push("/login"));
+      // dispatch(setAlert("Contraseña cambiada!", "Ingrese nuevamente", "constructive"));
+    } catch (error) {
+      let errorRes = error.response;
+      console.error("Error status reset_password_confirm: ", JSON.stringify(errorRes?.status));
+      console.error("Error response reset_password_confirm: ", JSON.stringify(errorRes?.data));
+
+      dispatch({
+        type: RESET_PASSWORD_CONFIRM_FAIL,
+      });
+      const errorMessage = extractErrorMessage(error);
+      dispatch(setAlert("Error", errorMessage, "destructive"));
+      dispatch({
+        type: REMOVE_AUTH_LOADING,
+      });
+    }
+  };
+
+/**
  * Function that dispatches a LOGOUT action.
+ * @component : 'Navbar.jsx'
  */
 export const logout = () => (dispatch) => {
   dispatch({
