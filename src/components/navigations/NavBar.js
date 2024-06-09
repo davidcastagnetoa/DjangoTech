@@ -3,25 +3,25 @@ import { Fragment, useState } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { Link, Navigate } from "react-router-dom";
 import {
-  BookmarkAltIcon,
+  BookmarkIcon,
   BriefcaseIcon,
   ChartBarIcon,
   CheckCircleIcon,
-  CursorClickIcon,
-  DesktopComputerIcon,
+  CursorArrowRaysIcon,
+  ComputerDesktopIcon,
   GlobeAltIcon,
   InformationCircleIcon,
-  MenuIcon,
+  Bars3Icon,
   NewspaperIcon,
-  OfficeBuildingIcon,
+  BuildingOfficeIcon,
   PhoneIcon,
   PlayIcon,
   ShieldCheckIcon,
   UserGroupIcon,
-  ViewGridIcon,
-  XIcon,
-} from "@heroicons/react/outline/index.js";
-import { ChevronDownIcon } from "@heroicons/react/solid/index.js";
+  Squares2X2Icon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline/index.js";
+import { ChevronDownIcon } from "@heroicons/react/24/solid/index.js";
 import { Button } from "../ui/button.jsx";
 import { ModeToggle } from "../mode-toggle.jsx";
 import AlertComponent from "../../components/AlertComponent.jsx";
@@ -35,6 +35,7 @@ import {
   DropdownMenuShortcut,
 } from "../ui/dropdown-menu.jsx";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar.jsx";
+import { Separator } from "../ui/separator.jsx";
 
 // Redux
 import { connect } from "react-redux";
@@ -51,14 +52,14 @@ const solutions = [
     name: "Engagement",
     description: "Speak directly to your customers in a more meaningful way.",
     href: "#",
-    icon: CursorClickIcon,
+    icon: CursorArrowRaysIcon,
   },
   { name: "Security", description: "Your customers' data will be safe and secure.", href: "#", icon: ShieldCheckIcon },
   {
     name: "Integrations",
     description: "Connect with third-party tools that you're already using.",
     href: "#",
-    icon: ViewGridIcon,
+    icon: Squares2X2Icon,
   },
 ];
 const callsToAction = [
@@ -68,7 +69,7 @@ const callsToAction = [
 ];
 const company = [
   { name: "About", href: "#", icon: InformationCircleIcon },
-  { name: "Customers", href: "#", icon: OfficeBuildingIcon },
+  { name: "Customers", href: "#", icon: BuildingOfficeIcon },
   { name: "Press", href: "#", icon: NewspaperIcon },
   { name: "Careers", href: "#", icon: BriefcaseIcon },
   { name: "Privacy", href: "#", icon: ShieldCheckIcon },
@@ -76,8 +77,8 @@ const company = [
 const resources = [
   { name: "Community", href: "#", icon: UserGroupIcon },
   { name: "Partners", href: "#", icon: GlobeAltIcon },
-  { name: "Guides", href: "#", icon: BookmarkAltIcon },
-  { name: "Webinars", href: "#", icon: DesktopComputerIcon },
+  { name: "Guides", href: "#", icon: BookmarkIcon },
+  { name: "Webinars", href: "#", icon: ComputerDesktopIcon },
 ];
 const blogPosts = [
   {
@@ -125,7 +126,7 @@ function NavBar({ isAuthenticated, user, logout }) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" /> {/* This is a edfault image */}
+            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" /> {/* This is a default image */}
             <AvatarFallback className="text-primary leading-1 flex h-full w-full items-center justify-center bg-muted/40 text-[15px] border border-input font-medium">
               {initials}
             </AvatarFallback>
@@ -172,7 +173,7 @@ function NavBar({ isAuthenticated, user, logout }) {
 
   return (
     <>
-      <Popover className="relative bg-background border-b border-border/40">
+      <Popover className="relative bg-background">
         <div className="absolute inset-0 shadow z-30 pointer-events-none" aria-hidden="true" />
         <div className="relative z-20">
           <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-5 sm:px-6 sm:py-4 lg:px-8 md:justify-start md:space-x-10">
@@ -185,7 +186,7 @@ function NavBar({ isAuthenticated, user, logout }) {
             <div className="-mr-2 -my-2 md:hidden">
               <Popover.Button className="bg-background rounded-md p-2 inline-flex items-center justify-center text-foreground hover:bg-muted hover:text-accent-foreground">
                 <span className="sr-only">Open menu</span>
-                <MenuIcon className="h-6 w-6" aria-hidden="true" />
+                <Bars3Icon className="h-6 w-6" aria-hidden="true" />
               </Popover.Button>
             </div>
             <div className="hidden md:flex-1 md:flex md:items-center md:justify-between">
@@ -265,9 +266,9 @@ function NavBar({ isAuthenticated, user, logout }) {
                     </>
                   )}
                 </Popover>
-                <a href="#" className="text-base font-medium text-muted-foreground hover:text-foreground/80">
-                  Pricing
-                </a>
+                <Link to="/shop" className="text-base font-medium text-muted-foreground hover:text-foreground/80">
+                  Shop
+                </Link>
                 <a href="#" className="text-base font-medium text-muted-foreground hover:text-foreground/80">
                   Docs
                 </a>
@@ -380,6 +381,8 @@ function NavBar({ isAuthenticated, user, logout }) {
           </div>
         </div>
 
+        <Separator className="bg-muted-foreground/10" />
+
         <Transition
           as={Fragment}
           enter="duration-200 ease-out"
@@ -399,7 +402,7 @@ function NavBar({ isAuthenticated, user, logout }) {
                   <div className="-mr-2">
                     <Popover.Button className="bg-background rounded-md p-2 inline-flex items-center justify-center text-foreground hover:bg-muted hover:text-accent-foreground">
                       <span className="sr-only">Close menu</span>
-                      <XIcon className="h-6 w-6" aria-hidden="true" />
+                      <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                     </Popover.Button>
                   </div>
                 </div>
@@ -430,9 +433,9 @@ function NavBar({ isAuthenticated, user, logout }) {
               </div>
               <div className="py-6 px-5">
                 <div className="grid grid-cols-2 gap-4">
-                  <a href="#" className="rounded-md text-base font-medium text-muted-foreground hover:text-primary">
-                    Pricing
-                  </a>
+                  <Link to="/shop" className="rounded-md text-base font-medium text-muted-foreground hover:text-primary">
+                    Shop
+                  </Link>
 
                   <a href="#" className="rounded-md text-base font-medium text-muted-foreground hover:text-primary">
                     Docs

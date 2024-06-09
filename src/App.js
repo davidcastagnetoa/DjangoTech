@@ -11,6 +11,8 @@ import Login from "./containers/auth/Login.jsx";
 import SignUp from "./containers/auth/SignUp.jsx";
 import Activate from "./containers/auth/Activate.jsx";
 import ResetPassword from "./containers/auth/ResetPassword.jsx";
+import ResetPasswordConfirm from "./containers/auth/ResetPasswordConfirm.jsx";
+import Shop from "./containers/pages/Shop.jsx";
 
 function App() {
   return (
@@ -27,7 +29,11 @@ function App() {
             <Route path="/signin" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/reset_password" element={<ResetPassword />} />
+            <Route path="/password/reset/confirm/:uid/:token" element={<ResetPasswordConfirm />} />
             <Route path="/activate/:uid/:token" element={<Activate />} />
+
+            {/* Store Page */}
+            <Route path="/shop" element={<Shop />} />
           </Routes>
         </Router>
       </Provider>
