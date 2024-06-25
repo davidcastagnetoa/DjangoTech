@@ -105,7 +105,7 @@ const Shop = ({ get_categories, categories }) => {
                             categories.map((category) => {
                               if (category?.sub_categories.length === 0) {
                                 return (
-                                  <div className="flex items-center space-x-6">
+                                  <div key={category.id} className="flex items-center space-x-6">
                                     <RadioGroupItem value={category?.name} id={category?.name} />
                                     <Label htmlFor={category?.name}>{category?.name}</Label>
                                   </div>
@@ -120,7 +120,7 @@ const Shop = ({ get_categories, categories }) => {
                                 );
                                 category?.sub_categories.map((sub_category) => {
                                   result.push(
-                                    <div className="flex items-center space-x-6">
+                                    <div key={sub_category.id} className="flex items-center space-x-6">
                                       <RadioGroupItem value={sub_category?.name} id={sub_category?.name} />
                                       <Label htmlFor={sub_category?.name}>{sub_category?.name}</Label>
                                     </div>
@@ -142,7 +142,10 @@ const Shop = ({ get_categories, categories }) => {
                             <>
                               <h3 className="-mx-2 -my-3 flow-root">
                                 {/* Here ypu can use an AccordionTrigger from SHADCN UI */}
-                                <DisclosureButton className="flex w-full items-center justify-between bg-background px-2 py-3 hover:text-foreground text-muted-foreground">
+                                <DisclosureButton
+                                  key={section.id}
+                                  className="flex w-full items-center justify-between bg-background px-2 py-3 hover:text-foreground text-muted-foreground"
+                                >
                                   <span className="font-medium text-foreground">{section.name}</span>
                                   <span className="ml-6 flex items-center">
                                     {open ? (
@@ -154,7 +157,7 @@ const Shop = ({ get_categories, categories }) => {
                                 </DisclosureButton>
                               </h3>
                               {/* Here ypu can use an AccordionContent from SHADCN UI */}
-                              <DisclosurePanel className="pt-6">
+                              <DisclosurePanel key={section.id} className="pt-6">
                                 <div className="space-y-6">
                                   {section.options.map((option, optionIdx) => (
                                     <div key={option.value} className="flex items-center">
@@ -266,7 +269,7 @@ const Shop = ({ get_categories, categories }) => {
                           categories.map((category) => {
                             if (category?.sub_categories.length === 0) {
                               return (
-                                <div className="flex items-center space-x-6">
+                                <div key={category.id} className="flex items-center space-x-6">
                                   <RadioGroupItem value={category?.name} id={category?.name} />
                                   <Label htmlFor={category?.name}>{category?.name}</Label>
                                 </div>
@@ -274,14 +277,14 @@ const Shop = ({ get_categories, categories }) => {
                             } else {
                               let result = [];
                               result.push(
-                                <div className="flex items-center space-x-6">
+                                <div key={category.id} className="flex items-center space-x-6">
                                   <RadioGroupItem value={category?.name} id={category?.name} />
                                   <Label htmlFor={category?.name}>{category?.name}</Label>
                                 </div>
                               );
                               category?.sub_categories.map((sub_category) => {
                                 result.push(
-                                  <div className="flex items-center space-x-6">
+                                  <div key={sub_category.id} className="flex items-center space-x-6">
                                     <RadioGroupItem value={sub_category?.name} id={sub_category?.name} />
                                     <Label htmlFor={sub_category?.name}>{sub_category?.name}</Label>
                                   </div>
@@ -301,7 +304,10 @@ const Shop = ({ get_categories, categories }) => {
                         {({ open }) => (
                           <>
                             <h3 className="-my-3 flow-root">
-                              <DisclosureButton className="flex w-full items-center justify-between bg-background py-3 text-sm hover:text-foreground text-muted-foreground">
+                              <DisclosureButton
+                                key={section.id}
+                                className="flex w-full items-center justify-between bg-background py-3 text-sm hover:text-foreground text-muted-foreground"
+                              >
                                 <span className="font-medium text-foreground">{section.name}</span>
                                 <span className="ml-6 flex items-center">
                                   {open ? (
@@ -313,7 +319,7 @@ const Shop = ({ get_categories, categories }) => {
                               </DisclosureButton>
                               <Separator />
                             </h3>
-                            <DisclosurePanel className="pt-6">
+                            <DisclosurePanel key={section.id} className="pt-6">
                               <div className="space-y-4">
                                 {section.options.map((option, optionIdx) => (
                                   <div key={option.value} className="flex items-center">
