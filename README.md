@@ -9,7 +9,7 @@ comandos:
 
 <!-- - FOR WINDOWS -->
 
-- `pg_ctl -D "C:\Users\username\AppData\Local\Programs\PostgreSQL\data" start` #Inicia el servidor
+- `pg_ctl -D "C:\Users\username\AppData\Local\Programs\PostgreSQL\data" start` # Inicia el servidor CMD
 - `cd /c/Users/username/AppData/Local/Programs/PostgreSQL/bin/ && pg_ctl -D ../data/ start`
 - `createuser -s postgres` # Crear un superusuario
 - `psql -U davidcastagnetoa -d djangoStore` # Conectarse a la DB postgres con el usuario davidcastagnetoa
@@ -24,8 +24,7 @@ comandos:
 - `\dp user_useraccount` # verificar los permisos sobre la tabla específica
 - `SELECT * FROM public.user_useraccount ORDER BY id ASC;`; # Para ver la tabla user_useraccount.
 - `GRANT SELECT ON TABLE public.user_useraccount TO davidcastagnetoa;` # Otorgar permisos necesarios a usuario
-
-- pg_ctl register -N "PostgreSQL" -D "C:\Users\username\AppData\Local\Programs\PostgreSQL\data" # Configurar PostgreSQL para iniciar automáticamente
+- `pg_ctl register -N "PostgreSQL" -D "C:\Users\username\AppData\Local\Programs\PostgreSQL\data"` # Configurar PostgreSQL para iniciar automáticamente
 
 3. python manage.py migrate
 
@@ -40,6 +39,10 @@ comandos:
    - Genera archivos en tu proyecto que Django luego se usarán para actualizar la DB. Estos archivos se llaman "migraciones" y son instrucciones sobre cómo modificar la estructura de la DB (como añadir una tabla o columna nueva).
 
 - python manage.py createsuperuser # crea un administrador , o por defecto se puede hacer con la consola de psql
+
+Aqui añades las categorias [link](https://youtu.be/zJA_tLTd3Vg?si=frBRuLNqomydJOWu&t=13558)
+
+- "http://localhost:8000/admin/login/?next=/admin/" #Para acceder al servidor desde un cliente navegador
 
 Aqui esta la doc de Djoser , para las pruebas en postman
 https://djoser.readthedocs.io/en/latest/base_endpoints.html#user-activate
